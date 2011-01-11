@@ -1,0 +1,116 @@
+########
+####
+#
+#
+#                               Heu-MCHC
+#
+# A fast and accurate heuristic algorithm for the haplotype inference
+# problem on pedigree data with recombinations and mutations
+#
+# Copyright (C) 2009,2010,2011  Yuri PIROLA
+#
+# Distributed under the terms of the GNU General Public License (GPL)
+#
+#
+# This file is part of Heu-MCHC.
+#
+# Heu-MCHC is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Heu-MCHC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+####
+#
+# Definition for the Intel C Compiler
+#
+########
+
+CC=icpc
+CXX=icpc
+
+MATH_LIB=mkl
+MKL_THREAD_DEFAULT=sequential
+
+#####################
+# Common compiler options
+#
+OPTB=-g -fp-model source
+OPTBCC=$(OPTB) -std=gnu99 -Wcheck -diag-enable warn
+OPTBCXX=$(OPTB) -std=gnu++98 -Wcheck -Wno-deprecated -diag-enable warn
+#####################
+
+#####################
+# Compiler options for production and verbose code
+#
+ifneq ($(STATUS), debug) # PRODUCTION or VERBOSE 
+#OPTP= -xSSE3 -O3 -ip -ipo -vec-report1
+HAS_SSE4_2:=$(shell cat /proc/cpuinfo | grep sse4_2 > /dev/null && echo YES || echo NO)
+HAS_SSE4_1:=$(shell cat /proc/cpuinfo | grep sse4_2> /dev/null && echo YES || echo NO)
+HAS_SSSE3:=$(shell cat /proc/cpuinfo | grep ssse3 > /dev/null && echo YES || echo NO)
+HAS_SSE3:=$(shell cat /proc/cpuinfo | grep sse3 > /dev/null && echo YES || echo NO)
+HAS_SSE2:=$(shell cat /proc/cpuinfo | grep sse2 > /dev/null && echo YES || echo NO)
+ifeq ($(HAS_SSE4_2), YES)
+$(info Compiling with SSE4.2 enabled)
+OPTP= -xSSE4.2 -O3 -ip -ipo -vec-report1
+else
+ifeq ($(HAS_SSE4_1), YES)
+$(info Compiling with SSE4.1 enabled)
+OPTP= -xSSE4.1 -O3 -ip -ipo -vec-report1
+else
+ifeq ($(HAS_SSSE3), YES)
+$(info Compiling with SSSE3 enabled)
+OPTP= -xSSSE3 -O3 -ip -ipo -vec-report1
+else
+ifeq ($(HAS_SSE3), YES)
+$(info Compiling with SSE3 enabled)
+OPTP= -xSSE3 -O3 -ip -ipo -vec-report1
+else
+ifeq ($(HAS_SSE2), YES)
+$(info Compiling with SSE2 enabled)
+OPTP= -xSSE2 -O3 -ip -ipo -vec-report1
+else
+$(info Compiling with Host optimizations)
+OPTP= -xHost -O3 -ip -ipo -vec-report1
+endif
+endif
+endif
+endif
+endif
+endif
+#####################
+
+#####################
+# Compiler options for verbose code
+#
+#ifeq ($(STATUS), verbose)
+#OPTP= -O3 -ip -ipo -vec-report1
+#endif
+#####################
+
+#####################
+# Compiler options for debugging code
+#
+ifeq ($(STATUS), debug)
+OPTD=-O0 -debug extended
+endif
+#####################
+
+#####################
+# Compiler options for profiling code
+#
+#
+ifeq ($(PROF), yes)
+OPTPROF=-pg -fprofile-arcs
+else
+OPTPROF=
+endif
+#####################
+

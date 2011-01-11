@@ -1,0 +1,79 @@
+#Intel Math Kernel Library settings
+####
+#
+#
+#                               Heu-MCHC
+#
+# A fast and accurate heuristic algorithm for the haplotype inference
+# problem on pedigree data with recombinations and mutations
+#
+# Copyright (C) 2009,2010,2011  Yuri PIROLA
+#
+# Distributed under the terms of the GNU General Public License (GPL)
+#
+#
+# This file is part of Heu-MCHC.
+#
+# Heu-MCHC is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Heu-MCHC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+####
+
+override MKL_THREAD_DEFAULT:=sequential
+
+ifndef MKL_THREAD
+MKL_THREAD=invalid
+endif
+
+ifneq ($(MKL_THREAD), sequential)
+ifneq ($(MKL_THREAD), parallel)
+override MKL_THREAD:=$(MKL_THREAD_DEFAULT)
+endif
+endif
+
+DFLAGSMATH=-DUSE_MKL
+
+ifdef MKL_LOCAL_DIR
+override MKL_ROOT:=$(MKL_LOCAL_DIR)
+override MKL_INCLUDE:=-L$(MKL_LOCAL_DIR)/include
+else
+ifndef MKL_ROOT
+MKL_ROOT=/opt/intel/Compiler/11.1/046/mkl
+endif
+MKL_INCLUDE=
+endif
+
+ifeq ($(MKL_THREAD), sequential)
+ifeq ($(LINKING), static)
+MKL_PATH=$(MKL_ROOT)/lib/32
+LIBS_MATH=$(MKL_INCLUDE) -L$(MKL_PATH) -Wl,--start-group $(MKL_PATH)/libmkl_intel.a $(MKL_PATH)/libmkl_sequential.a $(MKL_PATH)/libmkl_core.a -Wl,--end-group -lpthread
+else
+LIBS_MATH=$(MKL_INCLUDE) -Wl,--start-group -lmkl_intel -lmkl_sequential -lmkl_core -Wl,--end-group -lpthread
+endif
+
+else ifeq ($(MKL_THREAD), parallel)
+
+ifeq ($(LINKING), static)
+MKL_PATH=$(MKL_ROOT)/lib/32
+LIBS_MATH=$(MKL_INCLUDE) -L$(MKL_PATH) -Wl,--start-group $(MKL_PATH)/libmkl_intel.a $(MKL_PATH)/libmkl_intel_thread.a $(MKL_PATH)/libmkl_core.a -Wl,--end-group -openmp -lpthread
+else
+LIBS_MATH=$(MKL_INCLUDE) -Wl,--start-group -lmkl_intel -lmkl_intel_thread -lmkl_core -Wl,--end-group -openmp -lpthread
+endif
+
+endif
+
+
+override MATH_LIB_DESC:=mkl_$(MKL_THREAD)
+
+
+#END Intel Math Kernel Library settings

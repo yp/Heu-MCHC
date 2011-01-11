@@ -1,0 +1,12 @@
+bin
+obj
+.make
+hi-options.c
+hi-options.h
+gt-ped-gen-opt.h
+gt-ped-gen-opt.c
+ped-only-generation-opt.c
+ped-only-generation-opt.h
+Heu-MCHC/
+Heu-MCHC.tar.gz
+Heu-MCHC.tar.bz2

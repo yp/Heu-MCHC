@@ -1,0 +1,87 @@
+package "pedigree generation"
+####
+#
+#
+#                               Heu-MCHC
+#
+# A fast and accurate heuristic algorithm for the haplotype inference
+# problem on pedigree data with recombinations and mutations
+#
+# Copyright (C) 2009,2010,2011  Yuri PIROLA
+#
+# Distributed under the terms of the GNU General Public License (GPL)
+#
+#
+# This file is part of Heu-MCHC.
+#
+# Heu-MCHC is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Heu-MCHC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#
+####
+version "0.0"
+purpose "Haplotype Inference in Pedigrees with Recombinations and Mutations"
+
+description "Generate a random tree-pedigree (assuming the strong \
+definition) and a series of haplotype configurations for the generated \
+pedigree."
+
+args "--conf-parser"
+
+section "Required parameters"
+
+option "n-individuals" i 
+       "Number of individuals. NOTE: the actual number of individuals \
+        can be slightly greater to ensure the properties of the
+       pedigree."
+       int
+       required
+
+section "Topology parameters"
+
+option "children-probability" c 
+       "Probability of having an additional child in the same family."
+       double typestr="a value between 0.0 and 1.0"
+       default="0.35"
+       optional
+
+option "multimating-probability" M 
+       "Probability of mating with more than one partner."
+       double typestr="a value between 0.0 and 1.0"
+       default="0.05"
+       optional
+
+section "Output parameters"
+
+option "file-prefix" f
+       "Prefix of the output filename."
+       string
+       default="ped"
+       optional
+
+option "seed" s 
+       "Seed used to initialize the random generator."
+       int typestr="a positive integer or 0 for an automatic seed"
+       default="0"
+       optional
+
+option "print-pedigree" -
+       "Produce a file describing the pedigree (DOT syntax)."
+       optional
+
+option "print-pedigree-file" -
+       "Filename for the pedigree description."
+       string typestr="filename or \"-\" for standard output"
+       default="pedigree.dot"
+       dependon="print-pedigree"
+       optional
+
