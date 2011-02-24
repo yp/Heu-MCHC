@@ -1,3 +1,6 @@
 [submodule "docs"]
 	path = docs
 	url = git://github.com/yp/Heu-MCHC.git
+[submodule "website"]
+	path = website
+	url = git://github.com/yp/Heu-MCHC.git
