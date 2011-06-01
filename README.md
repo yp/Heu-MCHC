@@ -8,7 +8,7 @@ problem on pedigree data with recombinations and mutations
 by  [Yuri Pirola](http://bimib.disco.unimib.it/index.php/Pirola_Yuri)
 and [Tao Jiang](http://www.cs.ucr.edu/~jiang/)
 
-Current release: **v1.0.1** (February 24, 2011)
+Current release: **v1.0.2** (June 1, 2011)
 
 
 ------------------------------------------------------------------------
