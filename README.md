@@ -26,14 +26,20 @@ number of recombinations and point mutations has to be minimized.
 
 Please cite the following paper when using Heu-MCHC.
 
-Yuri Pirola, Paola Bonizzoni, and Tao Jiang.
-Haplotype Inference on Pedigrees with Recombinations and Mutations.
-In Algorithms in Bioinformatics, 10th Int. Workshop, WABI 2010, Liverpool UK, Sep 6-8, 2010, Proceedings. V. Moulton and M. Singh (Ed.).
+Yuri Pirola, Paola Bonizzoni, and Tao Jiang.  
+*An Efficient Algorithm for Haplotype Inference on Pedigrees with
+Recombinations and Mutations*.  
+IEEE/ACM Transactions on Computational Biology and Bioinformatics, in
+press (2011).
+[Link](http://dx.doi.org/10.1109/TCBB.2011.51)
+
+A preliminary version of this work, entitled
+*Haplotype Inference on Pedigrees with Recombinations and Mutations*,
+appeared in
+Algorithms in Bioinformatics, 10th Int. Workshop, WABI 2010, Liverpool
+UK, Sep 6-8, 2010, Proceedings. V. Moulton and M. Singh (Ed.).
 Springer. Vol. 6293 pp. 148-161 (2010).
 [Link](http://dx.doi.org/10.1007/978-3-642-15294-8_13)
-
-This work has also been accepted for publication in an upcoming issue of
-*IEEE/ACM Transactions on Computational Biology and Bioinformatics*.
 
 
 
